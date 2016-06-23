@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery-scapo Examples</title>
+  </head>
+  <body>
+    <h1>jQuery-scapo Examples</h1>
+
+    <div>
+    <h2>Simple Populate Example  </h2>
+    <select id="select1"></select>
+    </div>
+    
+    <div>
+    <h2>Nested Populate Example  </h2>
+      <div>
+        <label for="select2">GrandFather</label> 
+        <select id="select2"></select>
+      </div>
+    
+      <div>
+        <label for="select3">Father</label> 
+        <select id="select3"></select>
+      </div>
+
+      <div>
+        <label for="select4">Child</label> 
+        <select id="select4"></select>
+      </div>
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    
+    <script src="src/jquery.scapo.min.js"></script>
+    <!-- <script src="src/jquery.scapo.js"></script> -->
+    <!-- <script src="src/jquery.scapo.debug.js"></script> -->
+    
+    <script type="text/javascript">
+
+    var data1 = [
+      {'id': 1, 'name':"A"},
+      {'id': 2, 'name':"B"},
+      {'id': 3, 'name':"C"}
+    ];
+
+    var data2 = [
+      {'id': 1, 'name':"A1", 'data_id':1 },
+      {'id': 2, 'name':"A2", 'data_id':1 },
+      {'id': 3, 'name':"A3", 'data_id':1 },
+      {'id': 4, 'name':"B1", 'data_id':2 },
+      {'id': 5, 'name':"B2", 'data_id':2 },
+      {'id': 6, 'name':"C1", 'data_id':3 }
+    ];
+
+    var data3 = [
+      {'id': 1, 'name':"A11", 'data_id':1 },
+      {'id': 2, 'name':"A12", 'data_id':1 },
+      {'id': 3, 'name':"A21", 'data_id':2 },
+      {'id': 4, 'name':"A22", 'data_id':2 },
+      {'id': 5, 'name':"A31", 'data_id':3 },
+      {'id': 6, 'name':"B11", 'data_id':4 },
+      {'id': 7, 'name':"B21", 'data_id':5 },
+      {'id': 8, 'name':"C11", 'data_id':6 }
+    ];
+
+    var url = "http://localhost:8000/api/regiones";
+
+    $("#select1").scapo({
+        source: data1,
+        value: "id",
+        text: "name",
+        placeholder: 'Seleccione ...'
+    });
+
+    $("#select2").scapo({
+        source: data1,
+        value: "id",
+        text: "name",
+        nested: {
+          child: "#select3",
+          by: 'data_id'
+        }
+    });
+
+    $("#select3").scapo({
+        source: data2,
+        value: "id",
+        text: "name",
+        nested: {
+          parent: "#select2", 
+          child: "#select4",
+          by: 'data_id'
+        }
+    });
+
+    $("#select4").scapo({
+        source: data3,
+        value: "id",
+        text: "name",
+        nested: {
+          parent: "#select3", 
+          by: 'data_id'
+        }
+    });
+    </script>
+
+  </body>
+</html>
